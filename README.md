@@ -21,7 +21,7 @@ A comprehensive collection of custom nodes for ComfyUI that provides automatic l
 
 2. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/ComfyUI-Sampler-Scheduler-Loop.git
+   git clone https://github.com/KY-2000/ComfyUI-Sampler-Scheduler-Loop.git
    ```
 
 3. Restart ComfyUI
