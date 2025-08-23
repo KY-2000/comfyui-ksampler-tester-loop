@@ -9,13 +9,13 @@ import os
 
 # Try to import ComfyUI sampler names
 try:
-    from comfy.samplers import KSAMPLER_NAMES
-    print(f"ComfyUI sampler names loaded successfully: {len(KSAMPLER_NAMES)} samplers")
-    print(f"First few samplers: {KSAMPLER_NAMES[:5]}")
-    print(f"KSAMPLER_NAMES type: {type(KSAMPLER_NAMES)}")
+    from comfy.samplers import SAMPLER_NAMES
+    print(f"ComfyUI sampler names loaded successfully: {len(SAMPLER_NAMES)} samplers")
+    print(f"First few samplers: {SAMPLER_NAMES[:5]}")
+    print(f"SAMPLER_NAMES type: {type(SAMPLER_NAMES)}")
 except ImportError:
     # Fallback sampler list
-    KSAMPLER_NAMES = [
+    SAMPLER_NAMES = [
         "euler", "euler_cfg_pp", "euler_ancestral", "euler_ancestral_cfg_pp", 
         "heun", "heunpp2", "dpm_2", "dpm_2_ancestral", "lms", "dpm_fast", 
         "dpm_adaptive", "dpmpp_2s_ancestral", "dpmpp_2s_ancestral_cfg_pp", 
@@ -24,7 +24,7 @@ except ImportError:
         "ddpm", "lcm", "ipndm", "ipndm_v", "deis", "res_multistep", 
         "res_multistep_cfg_pp", "res_multistep_ancestral", "res_multistep_ancestral_cfg_pp",
         "gradient_estimation", "gradient_estimation_cfg_pp", "er_sde", 
-        "seeds_2", "seeds_3", "sa_solver", "sa_solver_pece"
+        "seeds_2", "seeds_3", "sa_solver", "sa_solver_pece", "ddim", "uni_pc", "uni_pc_bh2"
     ]
     print("Using fallback sampler list")
 
@@ -321,13 +321,13 @@ class SamplerLoop:
         skip_list = self.parse_skip_list(skip_samplers)
         
         # Filter samplers
-        available_samplers = [s for s in KSAMPLER_NAMES if s not in skip_list]
+        available_samplers = [s for s in SAMPLER_NAMES if s not in skip_list]
         total_combinations = len(available_samplers)
         
         if not available_samplers:
             # If all samplers are skipped, use full list as fallback
-            available_samplers = KSAMPLER_NAMES
-            total_combinations = len(KSAMPLER_NAMES)
+            available_samplers = SAMPLER_NAMES
+            total_combinations = len(SAMPLER_NAMES)
             print("Warning: All samplers were skipped. Using full sampler list as fallback.")
         
         # Reset counter if requested
@@ -397,11 +397,11 @@ class SamplerLoop:
         skip_list = []
         for sampler in skip_samplers_str.split(','):
             sampler = sampler.strip()
-            if sampler in KSAMPLER_NAMES:
+            if sampler in SAMPLER_NAMES:
                 skip_list.append(sampler)
             elif sampler:  # Only warn for non-empty strings
                 print(f"Warning: '{sampler}' is not a valid sampler name")
-                print(f"Available samplers: {', '.join(KSAMPLER_NAMES[:10])}...") # Show first 10
+                print(f"Available samplers: {', '.join(SAMPLER_NAMES[:10])}...") # Show first 10
         
         return skip_list
 
@@ -577,15 +577,15 @@ class SamplerSchedulerLoop:
         import time
         
         # Parse skip lists from string inputs
-        skip_samplers_list = self.parse_skip_list(skip_samplers, KSAMPLER_NAMES, "sampler")
+        skip_samplers_list = self.parse_skip_list(skip_samplers, SAMPLER_NAMES, "sampler")
         skip_schedulers_list = self.parse_skip_list(skip_schedulers, SCHEDULER_NAMES, "scheduler")
         
         # Filter samplers and schedulers
-        available_samplers = [s for s in KSAMPLER_NAMES if s not in skip_samplers_list]
+        available_samplers = [s for s in SAMPLER_NAMES if s not in skip_samplers_list]
         available_schedulers = [s for s in SCHEDULER_NAMES if s not in skip_schedulers_list]
         
         if not available_samplers:
-            available_samplers = KSAMPLER_NAMES
+            available_samplers = SAMPLER_NAMES
             print("Warning: All samplers were skipped. Using full sampler list as fallback.")
         
         if not available_schedulers:
@@ -747,15 +747,15 @@ class AllParametersLoop:
             print(warning)
         
         # Parse skip lists from string inputs
-        skip_samplers_list = self.parse_skip_list(skip_samplers, KSAMPLER_NAMES, "sampler")
+        skip_samplers_list = self.parse_skip_list(skip_samplers, SAMPLER_NAMES, "sampler")
         skip_schedulers_list = self.parse_skip_list(skip_schedulers, SCHEDULER_NAMES, "scheduler")
         
         # Filter samplers and schedulers
-        available_samplers = [s for s in KSAMPLER_NAMES if s not in skip_samplers_list]
+        available_samplers = [s for s in SAMPLER_NAMES if s not in skip_samplers_list]
         available_schedulers = [s for s in SCHEDULER_NAMES if s not in skip_schedulers_list]
         
         if not available_samplers:
-            available_samplers = KSAMPLER_NAMES
+            available_samplers = SAMPLER_NAMES
             print("Warning: All samplers were skipped. Using full sampler list as fallback.")
         
         if not available_schedulers:
@@ -797,7 +797,7 @@ class AllParametersLoop:
         total_combinations = len(steps_values) * len(cfg_values) * len(shift_values) * len(available_samplers) * len(available_schedulers)
         
         if total_combinations == 0:
-            return (steps_start, cfg_start, shift_start, available_samplers[0] if available_samplers else KSAMPLER_NAMES[0],
+            return (steps_start, cfg_start, shift_start, available_samplers[0] if available_samplers else SAMPLER_NAMES[0],
                     available_schedulers[0] if available_schedulers else SCHEDULER_NAMES[0], 0, 0, "")
         
         # Reset counter if requested
