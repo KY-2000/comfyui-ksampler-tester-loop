@@ -105,22 +105,22 @@ class FloatRangeLoop:
         
         # Reset counter if requested
         if reset:
-            FloatRangeLoop._global_counter = 0
+            type(self)._global_counter = 0
             print(f"FloatRange Loop: counter reset to 0")
         
         # Create a unique execution identifier (timestamp + thread)
         current_execution_id = f"{time.time()}_{threading.current_thread().ident}"
         
         # Only increment if this is a new execution
-        if FloatRangeLoop._last_execution_id != current_execution_id:
-            FloatRangeLoop._last_execution_id = current_execution_id
+        if type(self)._last_execution_id != current_execution_id:
+            type(self)._last_execution_id = current_execution_id
             # Don't increment on first call
-            if FloatRangeLoop._global_counter > 0 or hasattr(self, '_first_call_done'):
-                FloatRangeLoop._global_counter += 1
+            if type(self)._global_counter > 0 or hasattr(self, '_first_call_done'):
+                type(self)._global_counter += 1
             else:
                 setattr(self, '_first_call_done', True)
         
-        step = FloatRangeLoop._global_counter
+        step = type(self)._global_counter
         
         # Sequential loop through combinations (cycles back to first when complete)
         index = step % total_combinations
@@ -135,7 +135,7 @@ class FloatRangeLoop:
         current_combination = f"CFG {selected_cfg:.2f}, Shift {selected_shift:.2f}"
         
         # Log current selection for debugging
-        print(f"FloatRange Loop: Selected cfg={selected_cfg}, shift={selected_shift} (index: {index}, step: {step}) [Global: {FloatRangeLoop._global_counter}]")
+        print(f"FloatRange Loop: Selected cfg={selected_cfg}, shift={selected_shift} (index: {index}, step: {step}) [Global: {type(self)._global_counter}]")
         print(f"  Available cfg values: {cfg_values}")
         print(f"  Available shift values: {shift_values}")
         print(f"  Total combinations: {total_combinations}")
@@ -237,22 +237,22 @@ class ParametersRangeLoop:
         
         # Reset counter if requested
         if reset:
-            ParametersRangeLoop._global_counter = 0
+            type(self)._global_counter = 0
             print(f"Parameters Range Loop: counter reset to 0")
         
         # Create a unique execution identifier (timestamp + thread)
         current_execution_id = f"{time.time()}_{threading.current_thread().ident}"
         
         # Only increment if this is a new execution
-        if ParametersRangeLoop._last_execution_id != current_execution_id:
-            ParametersRangeLoop._last_execution_id = current_execution_id
+        if type(self)._last_execution_id != current_execution_id:
+            type(self)._last_execution_id = current_execution_id
             # Don't increment on first call
-            if ParametersRangeLoop._global_counter > 0 or hasattr(self, '_first_call_done'):
-                ParametersRangeLoop._global_counter += 1
+            if type(self)._global_counter > 0 or hasattr(self, '_first_call_done'):
+                type(self)._global_counter += 1
             else:
                 setattr(self, '_first_call_done', True)
         
-        step = ParametersRangeLoop._global_counter
+        step = type(self)._global_counter
         
         # Sequential loop through combinations (cycles back to first when complete)
         index = step % total_combinations
@@ -270,7 +270,7 @@ class ParametersRangeLoop:
         current_combination = f"{selected_steps} steps, CFG {selected_cfg:.2f}, Shift {selected_shift:.2f}"
         
         # Log current selection for debugging
-        print(f"Parameters Range Loop: Selected steps={selected_steps}, cfg={selected_cfg}, shift={selected_shift} (index: {index}, step: {step}) [Global: {ParametersRangeLoop._global_counter}]")
+        print(f"Parameters Range Loop: Selected steps={selected_steps}, cfg={selected_cfg}, shift={selected_shift} (index: {index}, step: {step}) [Global: {type(self)._global_counter}]")
         print(f"  Available cfg values: {cfg_values}")
         print(f"  Available shift values: {shift_values}")
         print(f"  Available steps values: {steps_values}")
@@ -332,22 +332,22 @@ class SamplerLoop:
         
         # Reset counter if requested
         if reset:
-            SamplerLoop._global_counters[mode] = 0
+            type(self)._global_counters[mode] = 0
             print(f"Sampler Loop: {mode} counter reset to 0")
         
         # Create a unique execution identifier (timestamp + thread + mode)
         current_execution_id = f"{time.time()}_{threading.current_thread().ident}_{mode}"
         
         # Only increment if this is a new execution
-        if SamplerLoop._last_execution_ids[mode] != current_execution_id:
-            SamplerLoop._last_execution_ids[mode] = current_execution_id
+        if type(self)._last_execution_ids[mode] != current_execution_id:
+            type(self)._last_execution_ids[mode] = current_execution_id
             # Don't increment on first call
-            if SamplerLoop._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
-                SamplerLoop._global_counters[mode] += 1
+            if type(self)._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
+                type(self)._global_counters[mode] += 1
             else:
                 setattr(self, f'_first_call_done_{mode}', True)
         
-        step = SamplerLoop._global_counters[mode]
+        step = type(self)._global_counters[mode]
         
         if mode == "sequential":
             # Sequential loop through samplers (cycles back to first when complete)
@@ -383,7 +383,7 @@ class SamplerLoop:
         current_combination = f"Sampler: {selected_sampler}"
         
         # Log current selection for debugging
-        print(f"Sampler Loop: Selected '{selected_sampler}' (index: {index}, step: {step}, mode: {mode}) [Global: {SamplerLoop._global_counters[mode]}]")
+        print(f"Sampler Loop: Selected '{selected_sampler}' (index: {index}, step: {step}, mode: {mode}) [Global: {type(self)._global_counters[mode]}]")
         if skip_list:
             print(f"  Skipped samplers: {skip_list}")
         
@@ -459,22 +459,22 @@ class SchedulerLoop:
         
         # Reset counter if requested
         if reset:
-            SchedulerLoop._global_counters[mode] = 0
+            type(self)._global_counters[mode] = 0
             print(f"Scheduler Loop: {mode} counter reset to 0")
         
         # Create a unique execution identifier (timestamp + thread + mode)
         current_execution_id = f"{time.time()}_{threading.current_thread().ident}_{mode}"
         
         # Only increment if this is a new execution
-        if SchedulerLoop._last_execution_ids[mode] != current_execution_id:
-            SchedulerLoop._last_execution_ids[mode] = current_execution_id
+        if type(self)._last_execution_ids[mode] != current_execution_id:
+            type(self)._last_execution_ids[mode] = current_execution_id
             # Don't increment on first call
-            if SchedulerLoop._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
-                SchedulerLoop._global_counters[mode] += 1
+            if type(self)._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
+                type(self)._global_counters[mode] += 1
             else:
                 setattr(self, f'_first_call_done_{mode}', True)
         
-        step = SchedulerLoop._global_counters[mode]
+        step = type(self)._global_counters[mode]
         
         if mode == "sequential":
             # Sequential loop through schedulers (cycles back to first when complete)
@@ -510,7 +510,7 @@ class SchedulerLoop:
         current_combination = f"Scheduler: {selected_scheduler}"
         
         # Log current selection for debugging
-        print(f"Scheduler Loop: Selected '{selected_scheduler}' (index: {index}, step: {step}, mode: {mode}) [Global: {SchedulerLoop._global_counters[mode]}]")
+        print(f"Scheduler Loop: Selected '{selected_scheduler}' (index: {index}, step: {step}, mode: {mode}) [Global: {type(self)._global_counters[mode]}]")
         if skip_list:
             print(f"  Skipped schedulers: {skip_list}")
         
@@ -597,22 +597,22 @@ class SamplerSchedulerLoop:
         
         # Reset counter if requested
         if reset:
-            SamplerSchedulerLoop._global_counters[mode] = 0
+            type(self)._global_counters[mode] = 0
             print(f"Sampler Scheduler Loop: {mode} counter reset to 0")
         
         # Create a unique execution identifier (timestamp + thread + mode)
         current_execution_id = f"{time.time()}_{threading.current_thread().ident}_{mode}"
         
         # Only increment if this is a new execution
-        if SamplerSchedulerLoop._last_execution_ids[mode] != current_execution_id:
-            SamplerSchedulerLoop._last_execution_ids[mode] = current_execution_id
+        if type(self)._last_execution_ids[mode] != current_execution_id:
+            type(self)._last_execution_ids[mode] = current_execution_id
             # Don't increment on first call
-            if SamplerSchedulerLoop._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
-                SamplerSchedulerLoop._global_counters[mode] += 1
+            if type(self)._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
+                type(self)._global_counters[mode] += 1
             else:
                 setattr(self, f'_first_call_done_{mode}', True)
         
-        step = SamplerSchedulerLoop._global_counters[mode]
+        step = type(self)._global_counters[mode]
         
         if mode == "sequential":
             # Sequential loop through combinations
@@ -651,7 +651,7 @@ class SamplerSchedulerLoop:
         current_combination = f"Sampler: {selected_sampler}, Scheduler: {selected_scheduler}"
         
         # Log current selection for debugging
-        print(f"Sampler Scheduler Loop: Selected sampler='{selected_sampler}', scheduler='{selected_scheduler}' (index: {index}, step: {step}, mode: {mode}) [Global: {SamplerSchedulerLoop._global_counters[mode]}]")
+        print(f"Sampler Scheduler Loop: Selected sampler='{selected_sampler}', scheduler='{selected_scheduler}' (index: {index}, step: {step}, mode: {mode}) [Global: {type(self)._global_counters[mode]}]")
         if skip_samplers_list or skip_schedulers_list:
             print(f"  Skipped samplers: {skip_samplers_list}")
             print(f"  Skipped schedulers: {skip_schedulers_list}")
@@ -802,22 +802,22 @@ class AllParametersLoop:
         
         # Reset counter if requested
         if reset:
-            AllParametersLoop._global_counters[mode] = 0
+            type(self)._global_counters[mode] = 0
             print(f"All Parameters Loop: {mode} counter reset to 0")
         
         # Create a unique execution identifier (timestamp + thread + mode)
         current_execution_id = f"{time.time()}_{threading.current_thread().ident}_{mode}"
         
         # Only increment if this is a new execution
-        if AllParametersLoop._last_execution_ids[mode] != current_execution_id:
-            AllParametersLoop._last_execution_ids[mode] = current_execution_id
+        if type(self)._last_execution_ids[mode] != current_execution_id:
+            type(self)._last_execution_ids[mode] = current_execution_id
             # Don't increment on first call
-            if AllParametersLoop._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
-                AllParametersLoop._global_counters[mode] += 1
+            if type(self)._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
+                type(self)._global_counters[mode] += 1
             else:
                 setattr(self, f'_first_call_done_{mode}', True)
         
-        step = AllParametersLoop._global_counters[mode]
+        step = type(self)._global_counters[mode]
         
         if mode == "sequential":
             # Sequential loop through all combinations
@@ -869,7 +869,7 @@ class AllParametersLoop:
         current_combination = f"{selected_steps} steps, CFG {selected_cfg:.2f}, Shift {selected_shift:.2f}, {selected_sampler}, {selected_scheduler}"
         
         # Log current selection for debugging
-        print(f"All Parameters Loop: Selected steps={selected_steps}, cfg={selected_cfg}, shift={selected_shift}, sampler='{selected_sampler}', scheduler='{selected_scheduler}' (index: {index}, step: {step}, mode: {mode}) [Global: {AllParametersLoop._global_counters[mode]}]")
+        print(f"All Parameters Loop: Selected steps={selected_steps}, cfg={selected_cfg}, shift={selected_shift}, sampler='{selected_sampler}', scheduler='{selected_scheduler}' (index: {index}, step: {step}, mode: {mode}) [Global: {type(self)._global_counters[mode]}]")
         print(f"  Total combinations: {total_combinations}")
         if skip_samplers_list or skip_schedulers_list:
             print(f"  Skipped samplers: {skip_samplers_list}")
@@ -893,6 +893,442 @@ class AllParametersLoop:
         
         return skip_list
 
+
+class AllParametersLoopAdvanced(AllParametersLoop):
+    """
+    A simplified version of AllParametersLoop that returns generic SAMPLER and SCHEDULER types
+    instead of the specific KSampler types. This is useful for compatibility with nodes that
+    expect generic types.
+    """
+    
+    RETURN_TYPES = ("INT", "FLOAT", "FLOAT", "SAMPLER", comfy.samplers.KSampler.SCHEDULERS, "INT", "INT", "STRING")
+    RETURN_NAMES = ("steps", "cfg", "shift", "sampler", "scheduler", "current_index", "total_combinations", "current_combination")
+    CATEGORY = "Samplers/Loop/Advanced"
+
+    def loop_all_parameters(self, mode, steps_start, steps_end, steps_interval,
+                           cfg_start, cfg_end, cfg_interval, shift_start, shift_end, shift_interval,
+                           seed=0, reset=False, skip_samplers="", skip_schedulers=""):
+        """
+        Advanced looping combining sampler, scheduler selection with parameter ranges
+        """
+        import threading
+        import time
+        
+        # Error prevention: Check if start values are smaller than end values
+        warnings = []
+        if cfg_start > cfg_end:
+            warnings.append(f"Warning: cfg_start ({cfg_start}) is greater than cfg_end ({cfg_end})")
+        if shift_start > shift_end:
+            warnings.append(f"Warning: shift_start ({shift_start}) is greater than shift_end ({shift_end})")
+        if steps_start > steps_end:
+            warnings.append(f"Warning: steps_start ({steps_start}) is greater than steps_end ({steps_end})")
+        
+        # Print warnings if any
+        for warning in warnings:
+            print(warning)
+        
+        # Parse skip lists from string inputs
+        skip_samplers_list = self.parse_skip_list(skip_samplers, SAMPLER_NAMES, "sampler")
+        skip_schedulers_list = self.parse_skip_list(skip_schedulers, SCHEDULER_NAMES, "scheduler")
+        
+        # Filter samplers and schedulers
+        available_samplers = [s for s in SAMPLER_NAMES if s not in skip_samplers_list]
+        available_schedulers = [s for s in SCHEDULER_NAMES if s not in skip_schedulers_list]
+        
+        if not available_samplers:
+            available_samplers = SAMPLER_NAMES
+            print("Warning: All samplers were skipped. Using full sampler list as fallback.")
+        
+        if not available_schedulers:
+            available_schedulers = SCHEDULER_NAMES
+            print("Warning: All schedulers were skipped. Using full scheduler list as fallback.")
+        
+        # Generate parameter values with proper floating point handling
+        # Steps values (always integers)
+        steps_values = []
+        if steps_start <= steps_end:
+            current_steps = steps_start
+            while current_steps <= steps_end:
+                steps_values.append(current_steps)
+                current_steps += steps_interval
+        else:
+            steps_values = [steps_start]
+        
+        # CFG values
+        cfg_values = []
+        current_cfg = cfg_start
+        if cfg_start <= cfg_end:
+            while current_cfg <= cfg_end + 1e-10:  # Add small epsilon for floating point comparison
+                cfg_values.append(round(current_cfg, 2))
+                current_cfg = round(current_cfg + cfg_interval, 2)  # Round to avoid floating point drift
+        else:
+            cfg_values = [cfg_start]
+        
+        # Shift values
+        shift_values = []
+        current_shift = shift_start
+        if shift_start <= shift_end:
+            while current_shift <= shift_end + 1e-10:  # Add small epsilon for floating point comparison
+                shift_values.append(round(current_shift, 2))
+                current_shift = round(current_shift + shift_interval, 2)  # Round to avoid floating point drift
+        else:
+            shift_values = [shift_start]
+        
+        # Calculate total combinations
+        total_combinations = len(steps_values) * len(cfg_values) * len(shift_values) * len(available_samplers) * len(available_schedulers)
+        
+        if total_combinations == 0:
+            return (steps_start, cfg_start, shift_start, available_samplers[0] if available_samplers else SAMPLER_NAMES[0],
+                    available_schedulers[0] if available_schedulers else SCHEDULER_NAMES[0], 0, 0, "")
+        
+        # Reset counter if requested
+        if reset:
+            type(self)._global_counters[mode] = 0
+            print(f"All Parameters Loop: {mode} counter reset to 0")
+        
+        # Create a unique execution identifier (timestamp + thread + mode)
+        current_execution_id = f"{time.time()}_{threading.current_thread().ident}_{mode}"
+        
+        # Only increment if this is a new execution
+        if type(self)._last_execution_ids[mode] != current_execution_id:
+            type(self)._last_execution_ids[mode] = current_execution_id
+            # Don't increment on first call
+            if type(self)._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
+                type(self)._global_counters[mode] += 1
+            else:
+                setattr(self, f'_first_call_done_{mode}', True)
+        
+        step = type(self)._global_counters[mode]
+        
+        if mode == "sequential":
+            # Sequential loop through all combinations
+            index = step % total_combinations
+            
+        elif mode == "random":
+            # Random selection with seed
+            random.seed(seed + step)  # Different random for each step
+            index = random.randint(0, total_combinations - 1)
+            
+        elif mode == "ping_pong":
+            # Ping pong pattern: forward then backward
+            cycle_length = total_combinations * 2 - 2
+            if cycle_length <= 0:
+                cycle_length = 1
+            
+            pos = step % cycle_length
+            if pos < total_combinations:
+                index = pos
+            else:
+                index = total_combinations - 2 - (pos - total_combinations)
+            
+            index = max(0, min(index, total_combinations - 1))
+        
+        else:
+            # Fallback
+            index = 0
+        
+        # Calculate individual indices from combined index
+        # Order: steps -> cfg -> shift -> sampler -> scheduler
+        scheduler_index = index // (len(steps_values) * len(cfg_values) * len(shift_values) * len(available_samplers))
+        remaining = index % (len(steps_values) * len(cfg_values) * len(shift_values) * len(available_samplers))
+        
+        sampler_index = remaining // (len(steps_values) * len(cfg_values) * len(shift_values))
+        remaining = remaining % (len(steps_values) * len(cfg_values) * len(shift_values))
+        
+        shift_index = remaining // (len(steps_values) * len(cfg_values))
+        remaining = remaining % (len(steps_values) * len(cfg_values))
+        
+        cfg_index = remaining // len(steps_values)
+        steps_index = remaining % len(steps_values)
+        
+        selected_steps = steps_values[steps_index]
+        selected_cfg = cfg_values[cfg_index]
+        selected_shift = shift_values[shift_index]
+        selected_sampler_name = available_samplers[sampler_index]
+        selected_scheduler = available_schedulers[scheduler_index]
+
+        try:
+            # Get the actual sampler function from ComfyUI
+            selected_sampler = comfy.samplers.sampler_object(selected_sampler_name)
+        except:
+            # Fallback: try to get sampler from samplers dictionary
+            try:
+                selected_sampler = comfy.samplers.samplers[selected_sampler_name]
+            except:
+                # Last resort: return the string (this might still cause issues)
+                selected_sampler = selected_sampler_name
+                print(f"Warning: Could not get sampler object for '{selected_sampler_name}', returning string")
+        
+        current_combination = f"{selected_steps} steps, CFG {selected_cfg:.2f}, Shift {selected_shift:.2f}, {selected_sampler_name}, {selected_scheduler}"
+        
+        # Log current selection for debugging
+        print(f"All Parameters Loop: Selected steps={selected_steps}, cfg={selected_cfg}, shift={selected_shift}, sampler='{selected_sampler_name}', scheduler='{selected_scheduler}' (index: {index}, step: {step}, mode: {mode}) [Global: {type(self)._global_counters[mode]}]")
+        print(f"  Total combinations: {total_combinations}")
+        if skip_samplers_list or skip_schedulers_list:
+            print(f"  Skipped samplers: {skip_samplers_list}")
+            print(f"  Skipped schedulers: {skip_schedulers_list}")
+        
+        return (selected_steps, selected_cfg, selected_shift, selected_sampler, selected_scheduler, index, total_combinations, current_combination)
+
+class SamplerLoopAdvanced(SamplerLoop):
+    """
+    A simplified version of AllParametersLoop that returns generic SAMPLER and SCHEDULER types
+    instead of the specific KSampler types. This is useful for compatibility with nodes that
+    expect generic types.
+    """
+    
+    RETURN_TYPES = ("SAMPLER", "INT", "INT", "STRING")
+    RETURN_NAMES = ("sampler", "current_index", "total_combinations", "current_combination")
+    FUNCTION = "loop_sampler"
+    CATEGORY = "Samplers/Loop/Advanced"
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "mode": (["sequential", "random", "ping_pong"],),
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                "reset": ("BOOLEAN", {"default": False}),
+            },
+            "optional": {
+                "skip_samplers": ("STRING", {
+                    "default": "",
+                    "multiline": True,
+                    "placeholder": "Enter sampler names to skip, separated by commas:\ne.g., euler, dpm_2, lcm"
+                }),
+            }
+        }
+
+    def loop_sampler(self, mode, seed, reset=False, skip_samplers=""):
+        """
+        Advanced sampler looping with automatic state management
+        """
+        import threading
+        import time
+        
+        # Parse skip list from string input
+        skip_list = self.parse_skip_list(skip_samplers)
+        
+        # Filter samplers
+        available_samplers = [s for s in SAMPLER_NAMES if s not in skip_list]
+        selected_sampler = None
+        total_combinations = len(available_samplers)
+        
+        if not available_samplers:
+            # If all samplers are skipped, use full list as fallback
+            available_samplers = SAMPLER_NAMES
+            total_combinations = len(SAMPLER_NAMES)
+            print("Warning: All samplers were skipped. Using full sampler list as fallback.")
+        
+        # Reset counter if requested
+        if reset:
+            type(self)._global_counters[mode] = 0
+            print(f"Sampler Loop: {mode} counter reset to 0")
+        
+        # Create a unique execution identifier (timestamp + thread + mode)
+        current_execution_id = f"{time.time()}_{threading.current_thread().ident}_{mode}"
+        
+        # Only increment if this is a new execution
+        if type(self)._last_execution_ids[mode] != current_execution_id:
+            type(self)._last_execution_ids[mode] = current_execution_id
+            # Don't increment on first call
+            if type(self)._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
+                type(self)._global_counters[mode] += 1
+            else:
+                setattr(self, f'_first_call_done_{mode}', True)
+        
+        step = type(self)._global_counters[mode]
+        
+        if mode == "sequential":
+            # Sequential loop through samplers (cycles back to first when complete)
+            index = step % len(available_samplers)
+            selected_sampler_name = available_samplers[index]
+            
+        elif mode == "random":
+            # Random selection with seed
+            random.seed(seed + step)  # Different random for each step
+            selected_sampler_name = random.choice(available_samplers)
+            index = available_samplers.index(selected_sampler_name)
+            
+        elif mode == "ping_pong":
+            # Ping pong pattern: forward then backward
+            cycle_length = len(available_samplers) * 2 - 2
+            if cycle_length <= 0:
+                cycle_length = 1
+            
+            pos = step % cycle_length
+            if pos < len(available_samplers):
+                index = pos
+            else:
+                index = len(available_samplers) - 2 - (pos - len(available_samplers))
+            
+            index = max(0, min(index, len(available_samplers) - 1))
+            selected_sampler_name = available_samplers[index]
+        else:
+            # Fallback
+            index = 0
+            selected_sampler_name = available_samplers[0]
+
+        try:
+            # Get the actual sampler function from ComfyUI
+            selected_sampler = comfy.samplers.sampler_object(selected_sampler_name)
+        except:
+            # Fallback: try to get sampler from samplers dictionary
+            try:
+                selected_sampler = comfy.samplers.samplers[selected_sampler_name]
+            except:
+                # Last resort: return the string (this might still cause issues)
+                selected_sampler = selected_sampler_name
+                print(f"Warning: Could not get sampler object for '{selected_sampler_name}', returning string")
+
+        current_combination = f"Sampler: {selected_sampler_name}"
+        
+        # Log current selection for debugging
+        print(f"Sampler Loop: Selected '{selected_sampler_name}' (index: {index}, step: {step}, mode: {mode}) [Global: {type(self)._global_counters[mode]}]")
+        if skip_list:
+            print(f"  Skipped samplers: {skip_list}")
+        
+        return (selected_sampler, index, total_combinations, current_combination)
+
+class SamplerSchedulerLoopAdvanced(SamplerSchedulerLoop):
+    """
+    A simplified version of AllParametersLoop that returns generic SAMPLER and SCHEDULER types
+    instead of the specific KSampler types. This is useful for compatibility with nodes that
+    expect generic types.
+    """
+    
+    RETURN_TYPES = ("SAMPLER", comfy.samplers.KSampler.SCHEDULERS, "INT", "INT", "STRING")
+    RETURN_NAMES = ("sampler", "scheduler", "current_index", "total_combinations", "current_combination")
+    FUNCTION = "loop_sampler_scheduler"
+    CATEGORY = "Samplers/Loop/Advanced"
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "mode": (["sequential", "random", "ping_pong"],),
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                "reset": ("BOOLEAN", {"default": False}),
+            },
+            "optional": {
+                "skip_samplers": ("STRING", {
+                    "default": "",
+                    "multiline": True,
+                    "placeholder": "Enter sampler names to skip, separated by commas:\ne.g., euler, dpm_2, lcm"
+                }),
+                "skip_schedulers": ("STRING", {
+                    "default": "",
+                    "multiline": True,
+                    "placeholder": "Enter scheduler names to skip, separated by commas:\ne.g., karras, exponential"
+                }),
+            }
+        }
+
+    def loop_sampler_scheduler(self, mode, seed, reset=False, skip_samplers="", skip_schedulers=""):
+        """
+        Advanced sampler and scheduler combination looping with automatic state management
+        FIXED: Returns actual sampler objects instead of string names
+        """
+        import threading
+        import time
+        
+        # Parse skip lists from string inputs
+        skip_samplers_list = self.parse_skip_list(skip_samplers, SAMPLER_NAMES, "sampler")
+        skip_schedulers_list = self.parse_skip_list(skip_schedulers, SCHEDULER_NAMES, "scheduler")
+        
+        # Filter samplers and schedulers
+        available_samplers = [s for s in SAMPLER_NAMES if s not in skip_samplers_list]
+        available_schedulers = [s for s in SCHEDULER_NAMES if s not in skip_schedulers_list]
+        
+        if not available_samplers:
+            available_samplers = SAMPLER_NAMES
+            print("Warning: All samplers were skipped. Using full sampler list as fallback.")
+        
+        if not available_schedulers:
+            available_schedulers = SCHEDULER_NAMES
+            print("Warning: All schedulers were skipped. Using full scheduler list as fallback.")
+        
+        # Calculate total combinations
+        total_combinations = len(available_samplers) * len(available_schedulers)
+        
+        # Reset counter if requested
+        if reset:
+            type(self)._global_counters[mode] = 0
+            print(f"Sampler Scheduler Loop Advanced: {mode} counter reset to 0")
+        
+        # Create a unique execution identifier (timestamp + thread + mode)
+        current_execution_id = f"{time.time()}_{threading.current_thread().ident}_{mode}"
+        
+        # Only increment if this is a new execution
+        if type(self)._last_execution_ids[mode] != current_execution_id:
+            type(self)._last_execution_ids[mode] = current_execution_id
+            # Don't increment on first call
+            if type(self)._global_counters[mode] > 0 or hasattr(self, f'_first_call_done_{mode}'):
+                type(self)._global_counters[mode] += 1
+            else:
+                setattr(self, f'_first_call_done_{mode}', True)
+        
+        step = type(self)._global_counters[mode]
+        
+        if mode == "sequential":
+            # Sequential loop through combinations
+            index = step % total_combinations
+            
+        elif mode == "random":
+            # Random selection with seed
+            random.seed(seed + step)  # Different random for each step
+            index = random.randint(0, total_combinations - 1)
+            
+        elif mode == "ping_pong":
+            # Ping pong pattern: forward then backward
+            cycle_length = total_combinations * 2 - 2
+            if cycle_length <= 0:
+                cycle_length = 1
+            
+            pos = step % cycle_length
+            if pos < total_combinations:
+                index = pos
+            else:
+                index = total_combinations - 2 - (pos - total_combinations)
+            
+            index = max(0, min(index, total_combinations - 1))
+        
+        else:
+            # Fallback
+            index = 0
+        
+        # Calculate sampler and scheduler indices from combined index
+        sampler_index = index // len(available_schedulers)
+        scheduler_index = index % len(available_schedulers)
+        
+        selected_sampler_name = available_samplers[sampler_index]
+        selected_scheduler_name = available_schedulers[scheduler_index]
+        
+        # FIXED: Return actual sampler object instead of string name
+        try:
+            # Get the actual sampler function from ComfyUI
+            selected_sampler = comfy.samplers.sampler_object(selected_sampler_name)
+        except:
+            # Fallback: try to get sampler from samplers dictionary
+            try:
+                selected_sampler = comfy.samplers.samplers[selected_sampler_name]
+            except:
+                # Last resort: return the string (this might still cause issues)
+                selected_sampler = selected_sampler_name
+                print(f"Warning: Could not get sampler object for '{selected_sampler_name}', returning string")
+        
+        current_combination = f"Sampler: {selected_sampler_name}, Scheduler: {selected_scheduler_name}"
+        
+        # Log current selection for debugging
+        print(f"Sampler Scheduler Loop Advanced: Selected sampler='{selected_sampler_name}', scheduler='{selected_scheduler_name}' (index: {index}, step: {step}, mode: {mode}) [Global: {type(self)._global_counters[mode]}]")
+        if skip_samplers_list or skip_schedulers_list:
+            print(f"  Skipped samplers: {skip_samplers_list}")
+            print(f"  Skipped schedulers: {skip_schedulers_list}")
+        
+        # Return sampler object (not string) and scheduler string
+        return (selected_sampler, selected_scheduler_name, index, total_combinations, current_combination)
+
+
 # Node class mappings for ComfyUI
 NODE_CLASS_MAPPINGS = {
     "FloatRangeLoop": FloatRangeLoop,
@@ -901,6 +1337,9 @@ NODE_CLASS_MAPPINGS = {
     "SchedulerLoop": SchedulerLoop,
     "SamplerSchedulerLoop": SamplerSchedulerLoop,
     "AllParametersLoop": AllParametersLoop,
+    "AllParametersLoopAdvanced": AllParametersLoopAdvanced,
+    "SamplerLoopAdvanced": SamplerLoopAdvanced,
+    "SamplerSchedulerLoopAdvanced": SamplerSchedulerLoopAdvanced
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -910,4 +1349,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "SchedulerLoop": "Scheduler Loop", 
     "SamplerSchedulerLoop": "Sampler Scheduler Loop",
     "AllParametersLoop": "All Parameters Loop",
+    "AllParametersLoopAdvanced": "All Parameters Loop (Sampler Custom Advanced)",
+    "SamplerLoopAdvanced": "Sampler Loop (Sampler Custom Advanced)",
+    "SamplerSchedulerLoopAdvanced": "Sampler Scheduler Loop (Sampler Custom Advanced)",
 }
