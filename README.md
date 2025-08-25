@@ -11,6 +11,7 @@ A comprehensive collection of custom nodes for ComfyUI that provides automatic l
 - **Skip Lists**: Exclude specific samplers or schedulers from loops
 - **Comprehensive Combinations**: Test all parameter combinations in a single node
 - **Reset Functionality**: Reset counters at any time for fresh testing cycles
+- **Advanced Sampler Support**: Enhanced compatibility with custom sampler nodes through Advanced variants
 
 ## Installation
 
@@ -28,7 +29,9 @@ A comprehensive collection of custom nodes for ComfyUI that provides automatic l
 
 ## Available Nodes
 
-### 1. Float Range Loop
+### Standard Loop Nodes
+
+#### 1. Float Range Loop
 **Category**: `WanVideo/FloatRange`
 
 Loop through combinations of CFG and shift float values with customizable ranges and steps.
@@ -46,7 +49,7 @@ Loop through combinations of CFG and shift float values with customizable ranges
 - `total_combinations`: Total number of combinations
 - `current_combination`: Human-readable description of current values
 
-### 2. Parameters Range Loop
+#### 2. Parameters Range Loop
 **Category**: `WanVideo/ParametersRange`
 
 Extended version that loops through steps, CFG, and shift values simultaneously.
@@ -66,7 +69,7 @@ Extended version that loops through steps, CFG, and shift values simultaneously.
 - `total_combinations`: Total number of combinations
 - `current_combination`: Human-readable description
 
-### 3. Sampler Loop
+#### 3. Sampler Loop
 **Category**: `Samplers/Loop`
 
 Automatically cycle through all available ComfyUI samplers.
@@ -78,17 +81,12 @@ Automatically cycle through all available ComfyUI samplers.
 - `skip_samplers`: Comma-separated list of samplers to skip
 
 **Outputs**:
-- `sampler`: Current sampler name
+- `sampler`: Current sampler name (KSampler compatible)
 - `current_index`: Current position
 - `total_combinations`: Total available samplers
 - `current_combination`: Current sampler description
 
-**Supported Loop Modes**:
-- **Sequential**: Cycles through samplers in order
-- **Random**: Randomly selects samplers (seeded for reproducibility)
-- **Ping Pong**: Goes forward through the list, then backward
-
-### 4. Scheduler Loop
+#### 4. Scheduler Loop
 **Category**: `Schedulers/Loop`
 
 Similar to Sampler Loop but for schedulers.
@@ -99,7 +97,7 @@ Similar to Sampler Loop but for schedulers.
 - `reset`: Reset counter
 - `skip_schedulers`: Comma-separated list of schedulers to skip
 
-### 5. Sampler Scheduler Loop
+#### 5. Sampler Scheduler Loop
 **Category**: `Samplers/Loop`
 
 Loops through combinations of samplers and schedulers.
@@ -110,13 +108,13 @@ Loops through combinations of samplers and schedulers.
 - `skip_schedulers`: Skip specific schedulers
 
 **Outputs**:
-- `sampler`: Current sampler
+- `sampler`: Current sampler (KSampler compatible)
 - `scheduler`: Current scheduler
 - `current_index`: Current combination index
 - `total_combinations`: Total sampler×scheduler combinations
 - `current_combination`: Description of current combination
 
-### 6. All Parameters Loop
+#### 6. All Parameters Loop
 **Category**: `Samplers/Loop`
 
 The ultimate comprehensive node that combines everything - loops through steps, CFG, shift, samplers, and schedulers.
@@ -130,11 +128,70 @@ The ultimate comprehensive node that combines everything - loops through steps, 
 - `steps`: Current steps value
 - `cfg`: Current CFG value  
 - `shift`: Current shift value
-- `sampler`: Current sampler
+- `sampler`: Current sampler (KSampler compatible)
 - `scheduler`: Current scheduler
 - `current_index`: Current combination index
 - `total_combinations`: Total combinations possible
 - `current_combination`: Full description of current settings
+
+### Advanced Loop Nodes
+
+**Category**: `Samplers/Loop/Advanced`
+
+The Advanced variants provide enhanced compatibility with custom sampler nodes by outputting actual sampler objects instead of just sampler names. These nodes are perfect for use with custom sampling workflows and third-party sampler nodes.
+
+#### 7. Sampler Loop (Sampler Custom Advanced)
+Enhanced version of the standard Sampler Loop with improved sampler object handling.
+
+**Key Differences**:
+- Returns actual sampler objects compatible with custom sampler nodes
+- Better error handling for sampler object creation
+- Enhanced compatibility with advanced sampling workflows
+
+**Outputs**:
+- `sampler`: Current sampler object (SAMPLER type)
+- `current_index`: Current position
+- `total_combinations`: Total available samplers
+- `current_combination`: Current sampler description
+
+#### 8. Sampler Scheduler Loop (Sampler Custom Advanced)
+Advanced version of the Sampler Scheduler Loop with enhanced sampler object support.
+
+**Key Features**:
+- Returns actual sampler objects for better custom node compatibility
+- Maintains all functionality of the standard version
+- Optimized for advanced sampling workflows
+
+**Outputs**:
+- `sampler`: Current sampler object (SAMPLER type)
+- `scheduler`: Current scheduler
+- `current_index`: Current combination index
+- `total_combinations`: Total combinations
+- `current_combination`: Description of current combination
+
+#### 9. All Parameters Loop (Sampler Custom Advanced)
+The most comprehensive Advanced node that combines all parameters with enhanced sampler object support.
+
+**Key Benefits**:
+- Full parameter range testing with custom sampler compatibility
+- Actual sampler objects for seamless integration with custom nodes
+- Complete workflow automation capabilities
+
+**Outputs**:
+- `steps`: Current steps value
+- `cfg`: Current CFG value
+- `shift`: Current shift value
+- `sampler`: Current sampler object (SAMPLER type)
+- `scheduler`: Current scheduler
+- `current_index`: Current combination index
+- `total_combinations`: Total combinations possible
+- `current_combination`: Full description of current settings
+
+### Supported Loop Modes
+
+- **Sequential**: Predictable order, cycles through all options systematically
+- **Random**: Uses seed for reproducible randomness, good for diverse sampling  
+- **Ping Pong**: Forward then backward pattern, creates smooth transitions
 
 ## Usage Examples
 
@@ -144,12 +201,25 @@ The ultimate comprehensive node that combines everything - loops through steps, 
 3. Connect the outputs to your KSampler node
 4. Run your workflow - each execution will use the next combination
 
+### Standard Sampler Testing
+1. Use `Sampler Loop` for testing with standard KSampler nodes
+2. Set your preferred loop mode (sequential, random, or ping_pong)
+3. Optionally skip problematic samplers using the skip list
+4. Connect the sampler output to your KSampler node
+
+### Advanced Custom Sampler Testing
+1. Use `Sampler Loop (Sampler Custom Advanced)` for custom sampler nodes
+2. This variant provides actual sampler objects instead of just names
+3. Perfect for use with third-party sampling nodes that require SAMPLER type inputs
+4. Maintains all the functionality of the standard version with enhanced compatibility
+
 ### Comprehensive Testing
-1. Use `All Parameters Loop` for exhaustive testing
-2. Set parameter ranges for steps (20-50), CFG (1.0-8.0), shift (1.0-3.0)
-3. Optionally skip problematic samplers/schedulers using the skip lists
-4. Connect all outputs to appropriate nodes in your workflow
-5. Queue your workflow multiple times to cycle through all combinations
+1. Use `All Parameters Loop` for exhaustive testing with standard nodes
+2. Use `All Parameters Loop (Sampler Custom Advanced)` for custom sampler workflows
+3. Set parameter ranges for steps (20-50), CFG (1.0-8.0), shift (1.0-3.0)
+4. Optionally skip problematic samplers/schedulers using the skip lists
+5. Connect all outputs to appropriate nodes in your workflow
+6. Queue your workflow multiple times to cycle through all combinations
 
 ### Skip Lists Format
 Enter sampler or scheduler names separated by commas:
@@ -161,11 +231,18 @@ or
 karras, exponential
 ```
 
-## Loop Modes
+## Node Selection Guide
 
-- **Sequential**: Predictable order, cycles through all options systematically
-- **Random**: Uses seed for reproducible randomness, good for diverse sampling  
-- **Ping Pong**: Forward then backward pattern, creates smooth transitions
+### When to Use Standard Nodes:
+- Working with built-in ComfyUI KSampler nodes
+- Standard sampling workflows
+- Basic parameter testing
+
+### When to Use Advanced Nodes:
+- Working with custom sampler nodes that require SAMPLER type inputs
+- Third-party sampling extensions
+- Advanced sampling workflows
+- When you encounter sampler compatibility issues with standard nodes
 
 ## Tips
 
@@ -173,6 +250,20 @@ karras, exponential
 - Monitor the console output for detailed logging of current selections
 - The `current_combination` output is useful for file naming or logging
 - Each node maintains separate counters, so you can use multiple loop nodes simultaneously
+- Advanced nodes provide better compatibility with custom sampling workflows
+- If standard nodes don't work with your custom samplers, try the Advanced variants
+
+## Troubleshooting
+
+### Sampler Compatibility Issues
+- If you're using custom sampler nodes and getting type errors, switch to the Advanced variants
+- The Advanced nodes return actual sampler objects instead of just names
+- Check the console output for warnings about sampler object creation
+
+### Skip List Not Working
+- Ensure sampler/scheduler names match exactly (case-sensitive)
+- Check console output for warnings about invalid names
+- Use comma separation without extra spaces
 
 ## Acknowledgments
 
@@ -183,6 +274,12 @@ Part of this code builds upon contributions from [tankenyuen-ola/comfyui-wanvide
 Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
 
 ## Changelog
+
+### v1.1.0
+- Added Advanced node variants for enhanced custom sampler compatibility
+- Improved sampler object handling in Advanced nodes
+- Better error handling and fallback mechanisms
+- Enhanced documentation and usage examples
 
 ### v1.0.0
 - Initial release with all 6 loop nodes
